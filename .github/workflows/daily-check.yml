@@ -1,0 +1,43 @@
+name: Daily Website Checker
+
+on:
+  schedule:
+    - cron: '0 8 * * *'  # Esegue alle 8:00 UTC ogni giorno
+  workflow_dispatch:      # Consente l'esecuzione manuale
+
+jobs:
+  check-websites:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Run website checker
+      env:
+        EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+        EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+        EMAIL_TO: ${{ secrets.EMAIL_TO }}
+        SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+        SMTP_PORT: ${{ secrets.SMTP_PORT }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        python -m monitor.checker
+        
+    - name: Commit changes if any
+      run: |
+        git config --global user.name 'GitHub Actions'
+        git config --global user.email 'actions@github.com'
+        git add data/
+        git diff --quiet && git diff --staged --quiet || git commit -m "Update data after daily check"
+        git push
