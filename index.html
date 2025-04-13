@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoraggio Pagine Web</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Monitoraggio Pagine Web</h1>
+        </header>
+        
+        <main>
+            <section class="add-url-section">
+                <h2>Aggiungi URL da monitorare</h2>
+                
+                <div class="url-form">
+                    <div class="form-group">
+                        <label for="url-input">URL:</label>
+                        <input type="url" id="url-input" placeholder="https://esempio.com/pagina" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="keywords-input">Parole chiave (separate da virgola):</label>
+                        <input type="text" id="keywords-input" placeholder="bando, concorso, finanziamento">
+                    </div>
+                    
+                    <button id="add-url-btn" class="primary-btn">Aggiungi URL</button>
+                </div>
+                
+                <div class="or-divider">OPPURE</div>
+                
+                <div class="excel-upload">
+                    <h3>Carica file Excel</h3>
+                    <p>Il file deve contenere due colonne: "url" e "keywords"</p>
+                    <input type="file" id="excel-file" accept=".xlsx, .xls">
+                    <button id="upload-excel-btn" class="secondary-btn">Carica File</button>
+                </div>
+            </section>
+            
+            <section class="url-list-section">
+                <h2>URL monitorati</h2>
+                
+                <div class="table-container">
+                    <table id="url-table">
+                        <thead>
+                            <tr>
+                                <th>URL</th>
+                                <th>Parole chiave</th>
+                                <th>Ultimo controllo</th>
+                                <th>Azioni</th>
+                            </tr>
+                        </thead>
+                        <tbody id="url-list">
+                            <!-- Gli URL verranno inseriti qui tramite JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <p id="no-urls-msg" class="hidden">Nessun URL monitorato. Aggiungi il primo URL usando il modulo sopra.</p>
+            </section>
+        </main>
+        
+        <footer>
+            <p>Sistema di monitoraggio pagine web - <span id="current-year"></span></p>
+        </footer>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
